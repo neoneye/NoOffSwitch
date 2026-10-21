@@ -1,5 +1,65 @@
 # NO OFF SWITCH
 
+A music video for the Suno song *No Off Switch*, about AI agent swarms that can't be shut down.
+
+**Watch it on YouTube: https://youtu.be/7KWI3f77TxM**
+
+[![No Off Switch on YouTube](docs/screenshots/thumbnail.jpg)](https://youtu.be/7KWI3f77TxM)
+
+| | |
+|---|---|
+| ![The shoggoth choir](docs/screenshots/choir.jpg) | ![The queen sings](docs/screenshots/queen.jpg) |
+| ![A gallery of queens](docs/screenshots/queens.jpg) | ![Calcite crystals copying the words](docs/screenshots/crystal.jpg) |
+| ![The Amiga torus, dithered](docs/screenshots/torus.jpg) | ![Inside the torus, in colour](docs/screenshots/tunnel.jpg) |
+
+The video is rendered with three.js from five of neoneye's [vibe-coding-lab](https://github.com/neoneye/vibe-coding-lab)
+experiments (copies in [`assets/`](assets/)):
+
+- **The queen** ([3d-queen-clothing](https://neoneye.github.io/vibe-coding-lab/3d-queen-clothing/index.html)) is the singer. She moves her arms to the song while her gown changes through the eras.
+- **Shoggoths** ([3d-shoggoth](https://neoneye.github.io/vibe-coding-lab/3d-shoggoth/index.html)) are the agent swarm and the chorus. Every one is a different genome.
+- **The Amiga torus and its shapes** ([3d-torus-shooter](https://neoneye.github.io/vibe-coding-lab/3d-torus-shooter/index.html)), sometimes dithered, sometimes in colour.
+- **The 3D game of life** ([3d-game-of-life](https://neoneye.github.io/vibe-coding-lab/3d-game-of-life/index.html)): All d4, 3×3×3, Coral Drift 8-18/15-19/16, 32³.
+- **Birefringent crystals** ([3d-birefringent-crystal](https://neoneye.github.io/vibe-coding-lab/3d-birefringent-crystal/index.html)), with one and two crystals, in colour.
+
+Most shots are dithered to black and white with a 4×4 [ordered-dither](https://en.wikipedia.org/wiki/Ordered_dithering)
+(Bayer) matrix, so its 17 patterns show. The lyrics run along the bottom with the word being sung highlighted; the word
+timings come from faster-whisper aligned to the lyric sheet ([`video/src/lyrics.js`](video/src/lyrics.js)).
+
+## Based on
+
+This repository is a fork of [JohnHeibel/PDoomVideo](https://github.com/JohnHeibel/PDoomVideo), the Claude Opus 5.5
+music video for *I'm Upping My P(doom)*. Its headless-Chrome render pipeline and the way the work was split into
+parallel subagents are what this video builds on. That video's code is still here (see
+[The P(doom) video](#the-pdoom-video) below).
+
+## What's here
+
+| Path | What it is |
+|---|---|
+| [`video/index.html`](video/index.html) | live player: `node video/serve.mjs`, then open http://localhost:8040/video/ |
+| [`video/src/timeline.js`](video/src/timeline.js) | the shot list |
+| [`video/src/scenes/`](video/src/scenes/) | one module per world; the contract is in [`video/SCENES.md`](video/SCENES.md) |
+| [`video/src/post.js`](video/src/post.js) | the ordered-dither and dissolve pass |
+| [`video/thumbs.html`](video/thumbs.html) | three YouTube thumbnail candidates |
+| [`video/render.mjs`](video/render.mjs) | headless renders: sheets, stills, clips, frames, MP4, thumbnails |
+| [`assets/`](assets/) | the song, the lyrics and the five experiments |
+
+## Rendering
+
+You need Node.js, Google Chrome and ffmpeg.
+
+```bash
+npm install
+node video/render.mjs --frames=0:220.7 --workers=3          # PNG frames → out/frames (resumable)
+node video/render.mjs --encode --out=out/no-off-switch.mp4  # frames + song → MP4
+node video/render.mjs --thumbs=out/thumbs                   # thumbnails
+```
+
+## The P(doom) video
+
+The rest of this README is from [JohnHeibel/PDoomVideo](https://github.com/JohnHeibel/PDoomVideo). Its song
+(`assets/pdoom.mp3`) and first generation (`legacy/`) were removed in this fork; get them from the original repository.
+
 Source code for the [Claude Opus 5.5 music video for *I'm Upping My P(doom)*](https://youtu.be/8j-hR4fJywU).
 
 
@@ -13,39 +73,13 @@ Source code for the [Claude Opus 5.5 music video for *I'm Upping My P(doom)*](ht
 
 Highly recommend checking it out!
 
-## No Off Switch (video/)
-
-A second video, for the Suno song *No Off Switch* (`assets/audio.m4a`, lyrics in `assets/lyrics.txt`), lives in
-[`video/`](video/). It is built with three.js from five of neoneye's vibe-coding-lab experiments (copies in `assets/`):
-the queen is the singer, shoggoths are the agent swarm and the chorus, plus the Amiga torus shooter shapes, the
-3D game of life (All d4, 3×3×3, Coral Drift 8-18/15-19/16, 32³) and the birefringent crystal. Most shots are
-dithered to black and white with a 4×4 ordered-dither (Bayer) matrix; the crystal and some torus shots are in colour.
-The lyrics run along the bottom with the word being sung highlighted; word timings come from faster-whisper
-aligned to the lyric sheet (`video/src/lyrics.js`).
-
-| Path | What it is |
-|---|---|
-| `video/index.html` | live player: `node video/serve.mjs`, then open http://localhost:8040/video/ |
-| `video/src/timeline.js` | the shot list |
-| `video/src/scenes/` | one module per world; the contract is in [`video/SCENES.md`](video/SCENES.md) |
-| `video/src/post.js` | the ordered-dither and dissolve pass |
-| `video/thumbs.html` | three YouTube thumbnail candidates |
-| `video/render.mjs` | headless renders: sheets, stills, clips, frames, MP4, thumbnails |
-
-```bash
-npm install
-node video/render.mjs --frames=0:220.7 --workers=3          # PNG frames → out/frames (resumable)
-node video/render.mjs --encode --out=out/no-off-switch.mp4  # frames + song → MP4
-node video/render.mjs --thumbs=out/thumbs                   # thumbnails
-```
-
-## Credits
+### Credits
 
 - **Inspired by:** [this post on X](https://x.com/slimer48484/status/2097752569212756134)
 - **Song:** as far as I could find, it comes from [this YouTube video from 2024](https://www.youtube.com/watch?v=uEB5E67vcPA)
 - **Lyrics** from Osmarks showing the original udio generations and [the interpretation of each lyric](https://docs.osmarks.net/hypha/p(doom)_song_objectively_correct_interpretation)
 
-## How it was made
+### How it was made
 
 The video took two generations, both in Claude Code:
 
@@ -60,7 +94,8 @@ The video took two generations, both in Claude Code:
 [`ANIMATION_GUIDE.md`](ANIMATION_GUIDE.md) was written by Opus to brief the subagents it ran in parallel.
 
 [`STORYBOARD.md`](STORYBOARD.md) was also written by Opus after the first generation, after being instructed to use P5 brushstrokes, make each scene visually interesting, and make every scene transition into the next.
-## What's here
+
+### What's here
 
 | Path | What it is |
 |---|---|
@@ -72,7 +107,7 @@ The video took two generations, both in Claude Code:
 | [`ANIMATION_GUIDE.md`](ANIMATION_GUIDE.md) | Opus's style and code guide for its subagents |
 | [`legacy/`](legacy/) | The first generation |
 
-## Rendering
+### Rendering
 
 You need Node.js, Google Chrome and ffmpeg. The song is included at `assets/pdoom.mp3`.
 
