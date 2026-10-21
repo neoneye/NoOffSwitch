@@ -1,4 +1,4 @@
-# I'm Upping My P(doom)
+# NO OFF SWITCH
 
 Source code for the [Claude Opus 5.5 music video for *I'm Upping My P(doom)*](https://youtu.be/8j-hR4fJywU).
 
