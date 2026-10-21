@@ -43,6 +43,7 @@ parallel subagents are what this video builds on. That video's code is still her
 | [`video/thumbs.html`](video/thumbs.html) | three YouTube thumbnail candidates |
 | [`video/render.mjs`](video/render.mjs) | headless renders: sheets, stills, clips, frames, MP4, thumbnails |
 | [`assets/`](assets/) | the song, the lyrics and the five experiments |
+| [`prompts/`](prompts/) | every prompt given to Claude while making the video, verbatim |
 
 ## Rendering
 
