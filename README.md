@@ -13,6 +13,32 @@ Source code for the [Claude Opus 5.5 music video for *I'm Upping My P(doom)*](ht
 
 Highly recommend checking it out!
 
+## No Off Switch (video/)
+
+A second video, for the Suno song *No Off Switch* (`assets/audio.m4a`, lyrics in `assets/lyrics.txt`), lives in
+[`video/`](video/). It is built with three.js from five of neoneye's vibe-coding-lab experiments (copies in `assets/`):
+the queen is the singer, shoggoths are the agent swarm and the chorus, plus the Amiga torus shooter shapes, the
+3D game of life (All d4, 3×3×3, Coral Drift 8-18/15-19/16, 32³) and the birefringent crystal. Most shots are
+dithered to black and white with a 4×4 ordered-dither (Bayer) matrix; the crystal and some torus shots are in colour.
+The lyrics run along the bottom with the word being sung highlighted; word timings come from faster-whisper
+aligned to the lyric sheet (`video/src/lyrics.js`).
+
+| Path | What it is |
+|---|---|
+| `video/index.html` | live player: `node video/serve.mjs`, then open http://localhost:8040/video/ |
+| `video/src/timeline.js` | the shot list |
+| `video/src/scenes/` | one module per world; the contract is in [`video/SCENES.md`](video/SCENES.md) |
+| `video/src/post.js` | the ordered-dither and dissolve pass |
+| `video/thumbs.html` | three YouTube thumbnail candidates |
+| `video/render.mjs` | headless renders: sheets, stills, clips, frames, MP4, thumbnails |
+
+```bash
+npm install
+node video/render.mjs --frames=0:220.7 --workers=3          # PNG frames → out/frames (resumable)
+node video/render.mjs --encode --out=out/no-off-switch.mp4  # frames + song → MP4
+node video/render.mjs --thumbs=out/thumbs                   # thumbnails
+```
+
 ## Credits
 
 - **Inspired by:** [this post on X](https://x.com/slimer48484/status/2097752569212756134)
